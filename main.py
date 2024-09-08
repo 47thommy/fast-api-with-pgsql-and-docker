@@ -1,5 +1,5 @@
 from uuid import UUID
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from model import Gender, Role, User
 
@@ -27,4 +27,7 @@ async def deleteUser(user_id:UUID):
         if user.id == user_id:
             db.remove(user)
             return {"message":"user deleted successfully"}
-    return {"message":"user not found"}
+    raise HTTPException(
+        status_code=404,
+        detail="User not found"
+    )
