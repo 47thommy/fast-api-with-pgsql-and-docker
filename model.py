@@ -1,25 +1,29 @@
-from typing import Optional
-from uuid import UUID, uuid4
-from pydantic import BaseModel
 from enum import Enum
+from sqlalchemy import Column, Integer, String, TIMESTAMP, Boolean, Enum as SqlEnum, text
+from database import Base  # Assuming you have Base properly set up from SQLAlchemy
 
+# Define the Enum classes
 class Gender(str, Enum):
-    male="male"
-    female="female"
+    male = "male"
+    female = "female"
 
 class Role(str, Enum):
-    admin="admin"
-    user="user"
-    student="student"
-class User(BaseModel):
-    id:Optional[UUID] = uuid4()
-    first_name:str
-    last_name:str
-    middle_name: Optional[str] = None
-    gender:Gender
-    role:list[Role]
-class updateUser(BaseModel):
-    first_name:Optional[str] = None
-    last_name:Optional[str] = None
-    middle_name:Optional[str] = None
-    role:Optional[list[Role]] = None
+    admin = "admin"
+    user = "user"
+    student = "student"
+
+# Define the User model
+class User(Base):
+    
+    __tablename__ = "users"
+    
+    id = Column(Integer, primary_key=True, nullable=False)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
+    middle_name = Column(String, nullable=True)
+    
+    # Use SQLAlchemy's Enum to define Enum columns
+    gender = Column(SqlEnum(Gender), nullable=False)
+    role = Column(SqlEnum(Role), nullable=False)
+    
+    createdAt = Column(TIMESTAMP(timezone=True), server_default=text('now()'), nullable=False)
