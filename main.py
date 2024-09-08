@@ -17,3 +17,7 @@ async def root():
 @app.get("/api/v1/users")
 async def getAllUsers():
     return db
+@app.post("/api/v1/users")
+async def registerUser(user:User):
+    db.append(user)
+    return {"id":user.id}
