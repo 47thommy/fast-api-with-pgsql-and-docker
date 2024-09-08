@@ -21,3 +21,10 @@ async def getAllUsers():
 async def registerUser(user:User):
     db.append(user)
     return {"id":user.id}
+@app.delete("/api/v1/users/{user_id}")
+async def deleteUser(user_id:UUID):
+    for user in db:
+        if user.id == user_id:
+            db.remove(user)
+            return {"message":"user deleted successfully"}
+    return {"message":"user not found"}
