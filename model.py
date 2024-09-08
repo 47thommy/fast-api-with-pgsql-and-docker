@@ -17,4 +17,4 @@ class User(BaseModel):
     last_name:str
     middle_name: Optional[str]
     gender:Gender
-    role:Role
+    role:list[Role]
