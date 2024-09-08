@@ -1,7 +1,7 @@
 from uuid import UUID
 from fastapi import FastAPI, HTTPException
 
-from model import Gender, Role, User
+from model import Gender, Role, User, updateUser
 
 app = FastAPI()
 
@@ -31,3 +31,18 @@ async def deleteUser(user_id:UUID):
         status_code=404,
         detail="User not found"
     )
+    
+@app.patch("/api/v1/users/{user_id}")
+async def updateUser(user_id:UUID, user:updateUser):
+    for u in db:
+        if u.id == user_id:
+            if user.first_name:
+                u.first_name = user.first_name
+            if user.last_name:
+                u.last_name = user.last_name
+            if user.middle_name:
+                u.middle_name = user.middle_name
+            if user.role:
+                u.role = user.role
+            return {"message":"user updated successfully"}
+            
