@@ -1,4 +1,6 @@
+from typing import Optional
 from fastapi import FastAPI
+from fastapi import Header
 
 app = FastAPI()
 
@@ -40,3 +42,11 @@ async def create_user(user_data:userSchema):
     }
     users.append(new_user)
     return {"message":f"user with email: { user_data.email} created succesfully"}
+
+@app.post("/login")
+async def login(token:Optional[str]=Header(None)):
+    if token:
+        return {"token":token}
+    return "no valid token provided"
+    
+    
