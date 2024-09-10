@@ -14,3 +14,11 @@ async def greet(username:str):
 user_list =[
     "thomas","salahadin","yohannes","surafel","betselot"
 ]
+
+@app.get("/search")
+async def search(username:str):
+    for user in user_list:
+        if user == username:
+            return {"message":f"details for {username}"}
+        else:
+            return {"message":"no user with the specified username exist"}
