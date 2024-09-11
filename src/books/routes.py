@@ -1,9 +1,9 @@
 from typing import List
-from fastapi import FastAPI, HTTPException, APIRouter
+from fastapi import APIRouter, HTTPException
 from src.books.book_data import books
 from src.books.schemas import Book, updateBook
-
 book_router = APIRouter()
+
 @book_router.get("/", response_model=List[Book])
 async def get_all_books():
     return books
