@@ -8,6 +8,14 @@ class Book (BaseModel):
     published_date:str
     page_count:int
     language:str
+
+class BookCreateModel(BaseModel):
+    title: str
+    author: str
+    publisher: str
+    published_date: str
+    page_count: int
+    language: str
     
 class updateBook(BaseModel):
     title:str
