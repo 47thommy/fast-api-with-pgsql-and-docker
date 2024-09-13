@@ -20,6 +20,7 @@ class BookService:
         new_book = Book(
             **book_data_dict
         )
+        print(book_data_dict['published_date'])
         
         new_book.published_date = datetime.strptime(book_data_dict['published_date'],"%Y-%m-%d")
 
@@ -40,22 +41,22 @@ class BookService:
     
     async def update_book(self, session:AsyncSession, book_id:str,update_data:BookCreateModel ):
         
-        book_to_update = await self.get_book(book_id, session)
+        book_to_update = await self.get_book(book_id=book_id, session=session)
         
         if book_to_update is not None:
             update_data_dict = update_data.model_dump()
             
             for k,v in update_data_dict.items():
                 setattr(book_to_update,k,v)
-            await session.commit(book_to_update)
+            await session.commit()
             return book_to_update
         else:
             return None
     async def delete_book(self, session:AsyncSession, book_id:str):
-        book_to_delete = await self.get_book(book_id, session)
+        book_to_delete = await self.get_book(book_id=book_id, session=session)
         if book_to_delete is not None:
             await session.delete(book_to_delete)
-            await session.commit
+            await session.commit()
             return book_to_delete
         else:
             return None
