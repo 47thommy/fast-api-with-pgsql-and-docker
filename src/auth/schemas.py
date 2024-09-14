@@ -7,3 +7,6 @@ class userCreateModel(BaseModel):
     username:str = Field(max_length=8)
     email:str
     password:str = Field(min_length=8)
+class userLoginModel(BaseModel):
+    password:str = Field(min_length=8)
+    email:str

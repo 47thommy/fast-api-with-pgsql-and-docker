@@ -23,12 +23,12 @@ def create_access_token(user_data:dict, expiry:timedelta = None, refresh:bool = 
     
     payload = {
         "user":user_data,
-        "exp":datetime.now + (expiry if expiry is not None else timedelta(minutes=60)),
+        "exp":datetime.now() + (expiry if expiry is not None else timedelta(minutes=60)),
         "jti": str(uuid.uuid4()),
         "refresh":refresh
     }
     
-    token = jwt.decode(payload=payload, key=Config.JWT_SECRET, algorithms=[Config.JWT_ALGORITHM])
+    token = jwt.encode(payload=payload, key=Config.JWT_SECRET, algorithm=Config.JWT_ALGORITHM)
     
     return token
 def decode_token(token:str)->dict:
